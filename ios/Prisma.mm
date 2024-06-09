@@ -26,7 +26,11 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install)
     
     // get migrations folder
     auto bundleURL = NSBundle.mainBundle.bundleURL;
+#if TARGET_OS_MACCATALYST
+    auto migrations_path_absolute = [NSString stringWithFormat:@"%@%@", bundleURL.absoluteString, @"Contents/Resources/migrations"];
+#else
     auto migrations_path_absolute = [NSString stringWithFormat:@"%@%@", bundleURL.absoluteString, @"migrations"];
+#endif
     auto migrations_path = [migrations_path_absolute stringByReplacingOccurrencesOfString:@"file://" withString:@""];
    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, true);
